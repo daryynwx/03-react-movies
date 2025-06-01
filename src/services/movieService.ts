@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Movie } from '../types/movie';
 
-const BASE_URL = 'https://api.themoviedb.org/3/search/movie';
+const BASE_URL = 'https://api.themoviedb.org/4/search/movie';
 
 interface FetchMoviesResponse {
   results: Movie[];
@@ -22,3 +22,4 @@ export async function fetchMovies(query: string): Promise<Movie[]> {
 
   return response.data.results;
 }
+

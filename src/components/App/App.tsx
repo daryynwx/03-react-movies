@@ -1,28 +1,43 @@
-import { useState } from 'react'
-
-
+import { useState } from 'react';
+import SearchBar from '../SearchBar/SearchBar';
+import { fetchMovies } from '../../services/movieService';
+import MovieGrid from '../MovieGrid/MovieGrid'; 
+import ErrorMessage from '../ErrorMessage/ErrorMessage'; 
+import Loader from '../Loader/Loader';
+import type { Movie } from '../../types/movie';
 
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSearch = async (query: string) => {
+    try {
+      setLoading(true);
+      setError('');
+      const results = await fetchMovies(query);
+      setMovies(results);
+    } catch (err) {
+      setError('Что-то пошло не так. Попробуйте ещё раз.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSelectMovie = (movie: Movie) => {
+    console.log('Выбран фильм:', movie.title);
+  };
 
   return (
-    <>
-    
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <SearchBar onSubmit={handleSearch} />
+      {loading && <Loader />}
+      {error && <ErrorMessage message={error} />}
+      <MovieGrid movies={movies} onSelect={handleSelectMovie} />
+    </div>
+  );
 }
 
-export default App
+
+export default App;
