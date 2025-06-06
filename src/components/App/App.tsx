@@ -1,43 +1,22 @@
 import { useState } from 'react';
 import SearchBar from '../SearchBar/SearchBar';
-import { fetchMovies } from '../../services/movieService';
-import MovieGrid from '../MovieGrid/MovieGrid'; 
-import ErrorMessage from '../ErrorMessage/ErrorMessage'; 
-import Loader from '../Loader/Loader';
-import type { Movie } from '../../types/movie';
+import toast from 'react-hot-toast';
 
+export default function App() {
+  const [query, setQuery] = useState('');
 
-function App() {
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-
-  const handleSearch = async (query: string) => {
-    try {
-      setLoading(true);
-      setError('');
-      const results = await fetchMovies(query);
-      setMovies(results);
-    } catch (err) {
-      setError('Что-то пошло не так. Попробуйте ещё раз.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSelectMovie = (movie: Movie) => {
-    console.log('Выбран фильм:', movie.title);
+  const handleSearch = (searchQuery: string) => {
+    // Можно сделать запрос, передать в API и т.д.
+    console.log('Search query:', searchQuery);
+    setQuery(searchQuery);
+    toast.success(`Поиск по запросу: ${searchQuery}`);
   };
 
   return (
     <div>
-      <SearchBar onSubmit={handleSearch} />
-      {loading && <Loader />}
-      {error && <ErrorMessage message={error} />}
-      <MovieGrid movies={movies} onSelect={handleSelectMovie} />
+      <SearchBar action={handleSearch} />
+      {/* Вы можете отобразить результаты поиска ниже */}
+      <p>Результаты для: {query}</p>
     </div>
   );
 }
-
-
-export default App;
