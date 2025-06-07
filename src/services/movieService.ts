@@ -4,6 +4,7 @@ import { type Movie } from '../types/movie';
 const BASE_URL = 'https://api.themoviedb.org/3/search/movie';
 const TOKEN = import.meta.env.VITE_TMDB_API_KEY;
 
+
 interface MovieResponse {
   results: Movie[];
 }
