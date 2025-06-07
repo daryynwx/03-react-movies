@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import SearchBar from '../SearchBar/SearchBar';
@@ -17,8 +16,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSearch = async (formData: FormData) => {
-    const query = formData.get('query')?.toString().trim();
+  const handleSearch = async (query: string) => {
     if (!query) return;
 
     setMovies([]);
