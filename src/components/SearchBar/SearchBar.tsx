@@ -6,7 +6,7 @@ interface SearchBarProps {
   action: (formData: FormData) => void;
 }
 
-export const SearchBar = ({ action }: SearchBarProps) => {
+const SearchBar = ({ action }: SearchBarProps) => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -14,7 +14,7 @@ export const SearchBar = ({ action }: SearchBarProps) => {
     const query = formData.get('query')?.toString().trim();
 
     if (!query) {
-      toast.error('Please enter a search query');
+      toast.error('Please enter your search query');
       return;
     }
 
@@ -24,19 +24,31 @@ export const SearchBar = ({ action }: SearchBarProps) => {
 
   return (
     <header className={styles.header}>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <input
-          className={styles.input}
-          type="text"
-          name="query"
-          autoComplete="off"
-          placeholder="Search movies..."
-          autoFocus
-        />
-        <button className={styles.button} type="submit">
-          Search
-        </button>
-      </form>
+      <div className={styles.container}>
+        <a
+          className={styles.link}
+          href="https://www.themoviedb.org/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Powered by TMDB
+        </a>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <input
+            className={styles.input}
+            type="text"
+            name="query"
+            autoComplete="off"
+            placeholder="Search movies..."
+            autoFocus
+          />
+          <button className={styles.button} type="submit">
+            Search
+          </button>
+        </form>
+      </div>
     </header>
   );
 };
+
+export default SearchBar;
