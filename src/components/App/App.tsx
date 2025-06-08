@@ -38,7 +38,7 @@ const App = () => {
 
   return (
     <div className={styles.container}>
-      <SearchBar action={handleSearch} />
+      <SearchBar onSubmit={handleSearch} />
       {isLoading && <Loader />}
       {error && <ErrorMessage message={error} />}
       {movies.length > 0 && (
